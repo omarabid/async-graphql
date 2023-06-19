@@ -1,4 +1,6 @@
-use crate::Enum;
+use crate::{Enum, ThreadedModel};
+
+impl ThreadedModel for __TypeKind {}
 
 /// An enum describing what kind of type a given `__Type` is.
 #[derive(Enum, Copy, Clone, Eq, PartialEq)]

@@ -10,7 +10,7 @@ use crate::{
     parser::types::Field,
     registry::{MetaType, MetaTypeId, Registry},
     to_value, ContextSelectionSet, InputType, InputValueResult, OutputType, Positioned,
-    ServerResult, Value,
+    ServerResult, ThreadedModel, Value,
 };
 
 /// A scalar that can represent any JSON value.
@@ -20,6 +20,8 @@ use crate::{
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq, Hash, Default)]
 #[serde(transparent)]
 pub struct Json<T>(pub T);
+
+impl<T: ThreadedModel> ThreadedModel for Json<T> {}
 
 impl<T> Deref for Json<T> {
     type Target = T;
@@ -41,7 +43,7 @@ impl<T> From<T> for Json<T> {
     }
 }
 
-impl<T: DeserializeOwned + Serialize + Send + Sync> InputType for Json<T> {
+impl<T: DeserializeOwned + Serialize + ThreadedModel> InputType for Json<T> {
     type RawValueType = T;
 
     fn type_name() -> Cow<'static, str> {
@@ -74,7 +76,7 @@ impl<T: DeserializeOwned + Serialize + Send + Sync> InputType for Json<T> {
 }
 
 #[async_trait::async_trait]
-impl<T: Serialize + Send + Sync> OutputType for Json<T> {
+impl<T: Serialize + ThreadedModel> OutputType for Json<T> {
     fn type_name() -> Cow<'static, str> {
         Cow::Borrowed("JSON")
     }
@@ -99,6 +101,8 @@ impl<T: Serialize + Send + Sync> OutputType for Json<T> {
         Ok(to_value(&self.0).ok().unwrap_or_default())
     }
 }
+
+impl ThreadedModel for serde_json::Value {}
 
 impl InputType for serde_json::Value {
     type RawValueType = serde_json::Value;

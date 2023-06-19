@@ -24,7 +24,7 @@ use crate::{
     validation::{check_rules, ValidationMode},
     BatchRequest, BatchResponse, CacheControl, ContextBase, EmptyMutation, EmptySubscription,
     Executor, InputType, ObjectType, OutputType, QueryEnv, Request, Response, ServerError,
-    ServerResult, SubscriptionType, Variables,
+    ServerResult, SubscriptionType, ThreadedModel, Variables,
 };
 
 /// Introspection mode
@@ -144,7 +144,7 @@ impl<Query, Mutation, Subscription> SchemaBuilder<Query, Mutation, Subscription>
     /// Add a global data that can be accessed in the `Schema`. You access it
     /// with `Context::data`.
     #[must_use]
-    pub fn data<D: Any + Send + Sync>(mut self, data: D) -> Self {
+    pub fn data<D: Any + ThreadedModel>(mut self, data: D) -> Self {
         self.data.insert(data);
         self
     }

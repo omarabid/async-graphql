@@ -4,7 +4,8 @@ use std::{borrow::Cow, io::Read, sync::Arc};
 use futures_util::io::AsyncRead;
 
 use crate::{
-    registry, registry::MetaTypeId, Context, InputType, InputValueError, InputValueResult, Value,
+    registry, registry::MetaTypeId, Context, InputType, InputValueError, InputValueResult,
+    ThreadedModel, Value,
 };
 
 /// A file upload value.
@@ -139,6 +140,8 @@ impl Upload {
         ctx.query_env.uploads[self.0].try_clone()
     }
 }
+
+impl ThreadedModel for Upload {}
 
 impl InputType for Upload {
     type RawValueType = Self;

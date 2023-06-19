@@ -6,7 +6,7 @@ use crate::{
     parser::types::Field,
     registry::{self, Registry},
     ContainerType, Context, ContextSelectionSet, Error, InputValueError, InputValueResult,
-    Positioned, Result, ServerResult, Value,
+    Positioned, Result, ServerResult, ThreadedModel, Value,
 };
 
 #[doc(hidden)]
@@ -15,13 +15,13 @@ pub trait Description {
 }
 
 /// Used to specify the GraphQL Type name.
-pub trait TypeName: Send + Sync {
+pub trait TypeName: ThreadedModel {
     /// Returns a GraphQL type name.
     fn type_name() -> Cow<'static, str>;
 }
 
 /// Represents a GraphQL input type.
-pub trait InputType: Send + Sync + Sized {
+pub trait InputType: ThreadedModel + Sized {
     /// The raw type used for validator.
     ///
     /// Usually it is `Self`, but the wrapper type is its internal type.
@@ -61,7 +61,7 @@ pub trait InputType: Send + Sync + Sized {
 
 /// Represents a GraphQL output type.
 #[async_trait::async_trait]
-pub trait OutputType: Send + Sync {
+pub trait OutputType: ThreadedModel {
     /// Type the name.
     fn type_name() -> Cow<'static, str>;
 
@@ -88,6 +88,8 @@ pub trait OutputType: Send + Sync {
         field: &Positioned<Field>,
     ) -> ServerResult<Value>;
 }
+
+impl<T: OutputType + ?Sized> ThreadedModel for &T {}
 
 #[async_trait::async_trait]
 impl<T: OutputType + ?Sized> OutputType for &T {
@@ -177,6 +179,7 @@ impl<T: OutputType + ?Sized> OutputType for Box<T> {
     }
 }
 
+impl<T: ThreadedModel> ThreadedModel for Box<T> {}
 #[async_trait::async_trait]
 impl<T: InputType> InputType for Box<T> {
     type RawValueType = T::RawValueType;
@@ -223,6 +226,8 @@ impl<T: OutputType + ?Sized> OutputType for Arc<T> {
         T::resolve(&**self, ctx, field).await
     }
 }
+
+impl<T: ThreadedModel> ThreadedModel for Arc<T> {}
 
 impl<T: InputType> InputType for Arc<T> {
     type RawValueType = T::RawValueType;

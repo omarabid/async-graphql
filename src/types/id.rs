@@ -8,7 +8,7 @@ use async_graphql_value::ConstValue;
 use bson::oid::{self, ObjectId};
 use serde::{Deserialize, Serialize};
 
-use crate::{InputValueError, InputValueResult, Scalar, ScalarType, Value};
+use crate::{InputValueError, InputValueResult, Scalar, ScalarType, ThreadedModel, Value};
 
 /// ID scalar
 ///
@@ -17,6 +17,8 @@ use crate::{InputValueError, InputValueResult, Scalar, ScalarType, Value};
 #[derive(Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug, Serialize, Deserialize, Default)]
 #[serde(transparent)]
 pub struct ID(pub String);
+
+impl ThreadedModel for ID {}
 
 impl Deref for ID {
     type Target = String;

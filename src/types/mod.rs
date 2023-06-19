@@ -1,6 +1,7 @@
 //! Useful GraphQL types.
 
 pub mod connection;
+pub mod threaded;
 
 mod any;
 mod empty_mutation;
@@ -26,4 +27,5 @@ pub use merged_object::{MergedObject, MergedObjectTail};
 pub(crate) use query_root::QueryRoot;
 #[cfg(feature = "string_number")]
 pub use string_number::StringNumber;
+pub use threaded::ThreadedModel;
 pub use upload::{Upload, UploadValue};

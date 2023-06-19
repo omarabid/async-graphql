@@ -3,8 +3,10 @@ use std::borrow::Cow;
 use crate::{
     parser::types::Field, registry, registry::Registry, ContextSelectionSet, InputType,
     InputValueError, InputValueResult, OutputType, Positioned, Scalar, ScalarType, ServerResult,
-    Value,
+    ThreadedModel, Value,
 };
+
+impl ThreadedModel for String {}
 
 /// The `String` scalar type represents textual data, represented as UTF-8
 /// character sequences. The String type is most often used by GraphQL to

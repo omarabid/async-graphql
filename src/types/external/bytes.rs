@@ -1,6 +1,8 @@
 use bytes::Bytes;
 
-use crate::{InputValueError, InputValueResult, Scalar, ScalarType, Value};
+use crate::{InputValueError, InputValueResult, Scalar, ScalarType, ThreadedModel, Value};
+
+impl ThreadedModel for Bytes {}
 
 /// The `Binary` scalar type represents binary data.
 #[Scalar(internal)]

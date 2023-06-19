@@ -9,7 +9,7 @@ use std::{
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-use crate::{parser, InputType, Pos, Value};
+use crate::{parser, InputType, Pos, ThreadedModel, Value};
 
 /// Extensions to the error.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
@@ -121,7 +121,7 @@ impl ServerError {
     /// assert!(err.source::<std::io::Error>().is_some());
     /// # });
     /// ```
-    pub fn source<T: Any + Send + Sync>(&self) -> Option<&T> {
+    pub fn source<T: Any + ThreadedModel>(&self) -> Option<&T> {
         self.source.as_ref().map(|err| err.downcast_ref()).flatten()
     }
 
@@ -298,7 +298,7 @@ impl Error {
 
     /// Create an error with a type that implements `Display`, and it will also
     /// set the `source` of the error to this value.
-    pub fn new_with_source(source: impl Display + Send + Sync + 'static) -> Self {
+    pub fn new_with_source(source: impl Display + ThreadedModel + 'static) -> Self {
         Self {
             message: source.to_string(),
             source: Some(Arc::new(source)),
@@ -319,7 +319,7 @@ impl Error {
     }
 }
 
-impl<T: Display + Send + Sync> From<T> for Error {
+impl<T: Display + ThreadedModel> From<T> for Error {
     fn from(e: T) -> Self {
         Self {
             message: e.to_string(),
@@ -459,7 +459,7 @@ pub trait ResultExt<T, E>: Sized {
 // types. (see example).
 impl<T, E> ResultExt<T, E> for std::result::Result<T, E>
 where
-    E: ErrorExtensions + Send + Sync + 'static,
+    E: ErrorExtensions + ThreadedModel + 'static,
 {
     fn extend_err<C>(self, cb: C) -> Result<T>
     where

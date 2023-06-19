@@ -3,7 +3,7 @@ use std::{borrow::Cow, marker::PhantomData};
 use crate::{
     connection::{DefaultEdgeName, EmptyFields},
     types::connection::{CursorType, EdgeNameType},
-    ComplexObject, ObjectType, OutputType, SimpleObject, TypeName,
+    ComplexObject, ObjectType, OutputType, SimpleObject, ThreadedModel, TypeName,
 };
 
 /// An edge in a connection.
@@ -11,7 +11,7 @@ use crate::{
 #[graphql(internal, name_type, shareable, complex)]
 pub struct Edge<Cursor, Node, EdgeFields, Name = DefaultEdgeName>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     EdgeFields: ObjectType,
     Name: EdgeNameType,
@@ -27,10 +27,19 @@ where
     pub(crate) additional_fields: EdgeFields,
 }
 
+impl<Cursor, Node, EdgeFields, Name> ThreadedModel for Edge<Cursor, Node, EdgeFields, Name>
+where
+    Cursor: CursorType + ThreadedModel,
+    Node: OutputType,
+    EdgeFields: ObjectType,
+    Name: EdgeNameType,
+{
+}
+
 #[ComplexObject(internal)]
 impl<Cursor, Node, EdgeFields, Name> Edge<Cursor, Node, EdgeFields, Name>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     EdgeFields: ObjectType,
     Name: EdgeNameType,
@@ -43,7 +52,7 @@ where
 
 impl<Cursor, Node, EdgeFields, Name> TypeName for Edge<Cursor, Node, EdgeFields, Name>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     EdgeFields: ObjectType,
     Name: EdgeNameType,
@@ -57,7 +66,7 @@ where
 impl<Cursor, Node, EdgeFields, Name> Edge<Cursor, Node, EdgeFields, Name>
 where
     Name: EdgeNameType,
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     EdgeFields: ObjectType,
 {
@@ -79,7 +88,7 @@ where
 
 impl<Cursor, Node, Name> Edge<Cursor, Node, EmptyFields, Name>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     Name: EdgeNameType,
 {

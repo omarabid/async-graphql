@@ -2,7 +2,9 @@ use std::num::{
     NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI8, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8,
 };
 
-use crate::{InputValueError, InputValueResult, Number, Scalar, ScalarType, Value};
+use crate::{InputValueError, InputValueResult, Number, Scalar, ScalarType, ThreadedModel, Value};
+
+impl ThreadedModel for NonZeroI8 {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
@@ -35,6 +37,8 @@ impl ScalarType for NonZeroI8 {
     }
 }
 
+impl ThreadedModel for NonZeroI16 {}
+
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for NonZeroI16 {
@@ -65,6 +69,8 @@ impl ScalarType for NonZeroI16 {
         Value::Number(Number::from(self.get() as i64))
     }
 }
+
+impl ThreadedModel for NonZeroI32 {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
@@ -97,6 +103,8 @@ impl ScalarType for NonZeroI32 {
     }
 }
 
+impl ThreadedModel for NonZeroI64 {}
+
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for NonZeroI64 {
@@ -123,6 +131,8 @@ impl ScalarType for NonZeroI64 {
         Value::Number(Number::from(self.get()))
     }
 }
+
+impl ThreadedModel for NonZeroU8 {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
@@ -155,6 +165,8 @@ impl ScalarType for NonZeroU8 {
     }
 }
 
+impl ThreadedModel for NonZeroU16 {}
+
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for NonZeroU16 {
@@ -186,6 +198,8 @@ impl ScalarType for NonZeroU16 {
     }
 }
 
+impl ThreadedModel for NonZeroU32 {}
+
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for NonZeroU32 {
@@ -216,6 +230,8 @@ impl ScalarType for NonZeroU32 {
         Value::Number(Number::from(self.get() as u64))
     }
 }
+
+impl ThreadedModel for NonZeroU64 {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]

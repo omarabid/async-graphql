@@ -7,11 +7,18 @@ use crate::{
     parser::types::Field,
     registry::{MetaType, MetaTypeId, Registry},
     CacheControl, ContainerType, Context, ContextSelectionSet, OutputType, Positioned, Response,
-    ServerResult, SimpleObject, SubscriptionType, Value,
+    ServerResult, SimpleObject, SubscriptionType, ThreadedModel, Value,
 };
 
 #[doc(hidden)]
 pub struct MergedObject<A, B>(pub A, pub B);
+
+impl<A, B> ThreadedModel for MergedObject<A, B>
+where
+    A: ContainerType,
+    B: ContainerType,
+{
+}
 
 #[async_trait::async_trait]
 impl<A, B> ContainerType for MergedObject<A, B>

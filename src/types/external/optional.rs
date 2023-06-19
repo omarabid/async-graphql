@@ -2,8 +2,10 @@ use std::borrow::Cow;
 
 use crate::{
     parser::types::Field, registry, ContextSelectionSet, InputType, InputValueError,
-    InputValueResult, OutputType, Positioned, ServerResult, Value,
+    InputValueResult, OutputType, Positioned, ServerResult, ThreadedModel, Value,
 };
+
+impl<T: InputType> ThreadedModel for Option<T> {}
 
 impl<T: InputType> InputType for Option<T> {
     type RawValueType = T::RawValueType;

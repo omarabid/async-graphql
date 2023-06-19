@@ -5,7 +5,7 @@ use indexmap::IndexMap;
 
 use crate::{
     extensions::ResolveInfo, parser::types::Selection, Context, ContextBase, ContextSelectionSet,
-    Error, Name, OutputType, ServerError, ServerResult, Value,
+    Error, Name, OutputType, ServerError, ServerResult, ThreadedModel, Value,
 };
 
 /// Represents a GraphQL container object.

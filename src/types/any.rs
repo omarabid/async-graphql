@@ -1,4 +1,4 @@
-use crate::{InputValueResult, Scalar, ScalarType, Value};
+use crate::{InputValueResult, Scalar, ScalarType, ThreadedModel, Value};
 
 /// Any scalar (For [Apollo Federation](https://www.apollographql.com/docs/apollo-server/federation/introduction))
 ///
@@ -6,6 +6,8 @@ use crate::{InputValueResult, Scalar, ScalarType, Value};
 /// services into the root `_entities` field for execution.
 #[derive(Clone, Eq, PartialEq, Debug)]
 pub struct Any(pub Value);
+
+impl ThreadedModel for Any {}
 
 /// The `_Any` scalar is used to pass representations of entities from external
 /// services into the root `_entities` field for execution.

@@ -2,7 +2,8 @@ use std::borrow::Cow;
 
 use crate::{
     parser::types::Field, registry, registry::MetaTypeId, resolver_utils::ContainerType, Context,
-    ContextSelectionSet, ObjectType, OutputType, Positioned, ServerError, ServerResult, Value,
+    ContextSelectionSet, ObjectType, OutputType, Positioned, ServerError, ServerResult,
+    ThreadedModel, Value,
 };
 
 /// Empty mutation
@@ -29,6 +30,8 @@ use crate::{
 /// ```
 #[derive(Default, Copy, Clone)]
 pub struct EmptyMutation;
+
+impl ThreadedModel for EmptyMutation {}
 
 #[async_trait::async_trait]
 impl ContainerType for EmptyMutation {

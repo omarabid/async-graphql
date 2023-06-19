@@ -1,5 +1,6 @@
-use crate::{InputValueError, InputValueResult, Number, Scalar, ScalarType, Value};
+use crate::{InputValueError, InputValueResult, Number, Scalar, ScalarType, ThreadedModel, Value};
 
+impl ThreadedModel for i8 {}
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for i8 {
@@ -30,6 +31,8 @@ impl ScalarType for i8 {
         Value::Number(Number::from(*self as i64))
     }
 }
+
+impl ThreadedModel for i16 {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
@@ -62,6 +65,8 @@ impl ScalarType for i16 {
     }
 }
 
+impl ThreadedModel for i32 {}
+
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for i32 {
@@ -93,6 +98,8 @@ impl ScalarType for i32 {
     }
 }
 
+impl ThreadedModel for i64 {}
+
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for i64 {
@@ -116,6 +123,8 @@ impl ScalarType for i64 {
         Value::Number(Number::from(*self))
     }
 }
+
+impl ThreadedModel for u8 {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
@@ -148,6 +157,8 @@ impl ScalarType for u8 {
     }
 }
 
+impl ThreadedModel for u16 {}
+
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for u16 {
@@ -178,6 +189,8 @@ impl ScalarType for u16 {
         Value::Number(Number::from(*self as u64))
     }
 }
+
+impl ThreadedModel for u32 {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
@@ -210,6 +223,8 @@ impl ScalarType for u32 {
     }
 }
 
+impl ThreadedModel for u64 {}
+
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
 impl ScalarType for u64 {
@@ -233,6 +248,8 @@ impl ScalarType for u64 {
         Value::Number(Number::from(*self))
     }
 }
+
+impl ThreadedModel for usize {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]
@@ -264,6 +281,8 @@ impl ScalarType for usize {
         Value::Number(Number::from(*self as u64))
     }
 }
+
+impl ThreadedModel for isize {}
 
 /// The `Int` scalar type represents non-fractional whole numeric values.
 #[Scalar(internal, name = "Int")]

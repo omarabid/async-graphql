@@ -9,7 +9,7 @@ use serde::{Deserialize, Deserializer, Serialize};
 use crate::{
     parser::{parse_query, types::ExecutableDocument},
     schema::IntrospectionMode,
-    Data, ParseRequestError, ServerError, UploadValue, Value, Variables,
+    Data, ParseRequestError, ServerError, ThreadedModel, UploadValue, Value, Variables,
 };
 
 /// GraphQL request.
@@ -88,7 +88,7 @@ impl Request {
 
     /// Insert some data for this request.
     #[must_use]
-    pub fn data<D: Any + Send + Sync>(mut self, data: D) -> Self {
+    pub fn data<D: Any + ThreadedModel>(mut self, data: D) -> Self {
         self.data.insert(data);
         self
     }
@@ -235,7 +235,7 @@ impl BatchRequest {
 
     /// Insert some data for  for each requests.
     #[must_use]
-    pub fn data<D: Any + Clone + Send + Sync>(mut self, data: D) -> Self {
+    pub fn data<D: Any + Clone + ThreadedModel>(mut self, data: D) -> Self {
         for request in self.iter_mut() {
             request.data.insert(data.clone());
         }

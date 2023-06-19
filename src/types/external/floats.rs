@@ -1,4 +1,6 @@
-use crate::{InputValueError, InputValueResult, Number, Scalar, ScalarType, Value};
+use crate::{InputValueError, InputValueResult, Number, Scalar, ScalarType, ThreadedModel, Value};
+
+impl ThreadedModel for f32 {}
 
 /// The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 #[Scalar(internal, name = "Float")]
@@ -24,6 +26,8 @@ impl ScalarType for f32 {
         }
     }
 }
+
+impl ThreadedModel for f64 {}
 
 /// The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 #[Scalar(internal, name = "Float")]

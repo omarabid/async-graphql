@@ -1,4 +1,6 @@
-use crate::{InputValueError, InputValueResult, Scalar, ScalarType, Value};
+use crate::{InputValueError, InputValueResult, Scalar, ScalarType, ThreadedModel, Value};
+
+impl ThreadedModel for bool {}
 
 /// The `Boolean` scalar type represents `true` or `false`.
 #[Scalar(internal, name = "Boolean")]

@@ -2,7 +2,7 @@ use std::{borrow::Cow, ops::Deref};
 
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
-use crate::{registry, InputType, InputValueError, InputValueResult, Value};
+use crate::{registry, InputType, InputValueError, InputValueResult, ThreadedModel, Value};
 
 /// Similar to `Option`, but it has three states, `undefined`, `null` and `x`.
 ///
@@ -202,6 +202,8 @@ impl<T> MaybeUndefined<T> {
         };
     }
 }
+
+impl<T: ThreadedModel> ThreadedModel for MaybeUndefined<T> {}
 
 impl<T: InputType> InputType for MaybeUndefined<T> {
     type RawValueType = T::RawValueType;

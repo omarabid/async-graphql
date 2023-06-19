@@ -7,7 +7,7 @@ use crate::{
     resolver_utils::{resolve_container, ContainerType},
     schema::IntrospectionMode,
     Any, Context, ContextSelectionSet, ObjectType, OutputType, Positioned, ServerError,
-    ServerResult, SimpleObject, Value,
+    ServerResult, SimpleObject, ThreadedModel, Value,
 };
 
 /// Federation service
@@ -17,9 +17,13 @@ struct Service {
     sdl: Option<String>,
 }
 
+impl ThreadedModel for Service {}
+
 pub(crate) struct QueryRoot<T> {
     pub(crate) inner: T,
 }
+
+impl<T: ObjectType> ThreadedModel for QueryRoot<T> {}
 
 #[async_trait::async_trait]
 impl<T: ObjectType> ContainerType for QueryRoot<T> {

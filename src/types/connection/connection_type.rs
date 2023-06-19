@@ -7,7 +7,7 @@ use crate::{
         PageInfo,
     },
     types::connection::{CursorType, EmptyFields},
-    Object, ObjectType, OutputType, TypeName,
+    Object, ObjectType, OutputType, ThreadedModel, TypeName,
 };
 
 /// Connection type
@@ -22,7 +22,7 @@ pub struct Connection<
     EdgeName = DefaultEdgeName,
     NodesField = EnableNodesField,
 > where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     ConnectionFields: ObjectType,
     EdgeFields: ObjectType,
@@ -46,7 +46,7 @@ pub struct Connection<
 impl<Cursor, Node, NodesField, EdgeFields, Name, EdgeName>
     Connection<Cursor, Node, EmptyFields, EdgeFields, Name, EdgeName, NodesField>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     EdgeFields: ObjectType,
     Name: ConnectionNameType,
@@ -71,7 +71,7 @@ where
 impl<Cursor, Node, NodesField, ConnectionFields, EdgeFields, Name, EdgeName>
     Connection<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName, NodesField>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     ConnectionFields: ObjectType,
     EdgeFields: ObjectType,
@@ -102,7 +102,7 @@ where
 impl<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName>
     Connection<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName, DisableNodesField>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     ConnectionFields: ObjectType,
     EdgeFields: ObjectType,
@@ -136,7 +136,7 @@ where
 impl<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName>
     Connection<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName, EnableNodesField>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     ConnectionFields: ObjectType,
     EdgeFields: ObjectType,
@@ -171,10 +171,23 @@ where
     }
 }
 
+impl<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName, NodesField> ThreadedModel
+    for Connection<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName, NodesField>
+where
+    Cursor: CursorType + ThreadedModel,
+    Node: OutputType,
+    ConnectionFields: ObjectType,
+    EdgeFields: ObjectType,
+    Name: ConnectionNameType,
+    EdgeName: EdgeNameType,
+    NodesField: NodesFieldSwitcherSealed,
+{
+}
+
 impl<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName, NodesField> TypeName
     for Connection<Cursor, Node, ConnectionFields, EdgeFields, Name, EdgeName, NodesField>
 where
-    Cursor: CursorType + Send + Sync,
+    Cursor: CursorType + ThreadedModel,
     Node: OutputType,
     ConnectionFields: ObjectType,
     EdgeFields: ObjectType,

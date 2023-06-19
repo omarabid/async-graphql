@@ -2,11 +2,11 @@ use std::borrow::Cow;
 
 use crate::{
     extensions::ResolveFut, parser::types::Directive, registry::Registry, Context,
-    ContextDirective, ServerResult, Value,
+    ContextDirective, ServerResult, ThreadedModel, Value,
 };
 
 #[doc(hidden)]
-pub trait CustomDirectiveFactory: Send + Sync + 'static {
+pub trait CustomDirectiveFactory: ThreadedModel + 'static {
     fn name(&self) -> Cow<'static, str>;
 
     fn register(&self, registry: &mut Registry);
@@ -21,7 +21,7 @@ pub trait CustomDirectiveFactory: Send + Sync + 'static {
 /// Represents a custom directive.
 #[async_trait::async_trait]
 #[allow(unused_variables)]
-pub trait CustomDirective: Sync + Send + 'static {
+pub trait CustomDirective: ThreadedModel + 'static {
     /// Called at resolve field.
     async fn resolve_field(
         &self,

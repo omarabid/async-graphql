@@ -1,4 +1,6 @@
-use crate::{InputValueError, InputValueResult, Scalar, ScalarType, Value};
+use crate::{InputValueError, InputValueResult, Scalar, ScalarType, ThreadedModel, Value};
+
+impl ThreadedModel for char {}
 
 /// The `Char` scalar type represents a unicode char.
 /// The input and output values are a string, and there can only be one unicode
